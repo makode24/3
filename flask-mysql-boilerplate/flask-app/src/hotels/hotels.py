@@ -3,10 +3,10 @@ import json
 from src import db
 
 
-flights = Blueprint('flights', __name__)
+hotels = Blueprint('hotels', __name__)
 
 # Get all the products from the database
-@flights.route('/products', methods=['GET'])
+@hotels.route('/products', methods=['GET'])
 def get_products():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
@@ -32,7 +32,7 @@ def get_products():
     return jsonify(json_data)
 
 # get the top 5 products from the database
-@flights.route('/mostExpensive')
+@hotels.route('/mostExpensive')
 def get_most_pop_products():
     cursor = db.get_db().cursor()
     query = '''
