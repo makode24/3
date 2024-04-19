@@ -1,6 +1,9 @@
 version: "3.9"
 
-# We are setting up 2 services: web and 
+# We are setting up 2 or 3 services: 
+# - web container for the Flask application 
+# - db container for mysql
+# - appsmith container for appsmith
 services:
 
   ##################################################################
@@ -17,7 +20,8 @@ services:
     # have the container restart if it fails for some reason. 
     restart: unless-stopped
 
-    # map host port 8001 to container port 4000 (see the EXPOSE command in api/Dockerfile)
+    # map host port 8001 to container port 4000 (see the 
+    # EXPOSE command in api/Dockerfile)
     ports:
       - "8001:4000"
 
@@ -36,7 +40,8 @@ services:
       - ./db:/docker-entrypoint-initdb.d/:ro
 
     ports:
-      # mapping host port 3200 to container port 3306
+      # mapping host port 3200 to container port 3306, which is the
+      # default port for mysql. 
       - 3200:3306
 
     restart: unless-stopped
@@ -48,8 +53,8 @@ services:
     # file as well. 
     environment:
       MYSQL_USER: webapp
-      MYSQL_PASSWORD_FILE: /run/secrets/secret_db_pw.txt
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/secret_db_root_pw.txt
+      MYSQL_PASSWORD_FILE: /run/secrets/secret_db_pw
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/secret_db_root_pw
     
     secrets:
       - secret_db_pw
@@ -57,15 +62,15 @@ services:
 
   ##################################################################
   # configure the AppSmith container (borrowed directly from Appsmith)
-  appsmith:
-    image: index.docker.io/appsmith/appsmith-ce
-    container_name: appsmith
-    ports:
-      - "8080:80"
-      - "4443:443"
-    volumes:
-      - ./stacks:/appsmith-stacks
-    restart: unless-stopped
+#   appsmith:
+#     image: index.docker.io/appsmith/appsmith-ce
+#     container_name: appsmith
+#     ports:
+#       - "8080:80"
+#       - "4443:443"
+#     volumes:
+#       - ./stacks:/appsmith-stacks
+#     restart: unless-stopped
 
 secrets:
   secret_db_pw:
