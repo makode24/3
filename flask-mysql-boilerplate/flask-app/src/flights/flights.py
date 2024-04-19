@@ -167,3 +167,68 @@ def get_airport_lounges():
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
+
+# Add flights
+@flights.route('/flights', methods=['POST'])
+def add_flights():
+    # Retrieve data from the request
+    data = request.json
+
+    # Ensure required fields are present in the request data
+    required_fields = ['flight_id', 'airline_id', 'class', 'layover', 'arrival_time', 'departure_time', 'price']
+    if not all(field in data for field in required_fields):
+        return jsonify({"Error": "Missing required fields."})
+    
+    # Insert the new flight into the database
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO flights (flight_id, airline_id, class, layover, arrival_time, departure_time, price)
+            VALUES (%s, %s, %s, %s, %s)
+        ''', (data['flight_id'], data['airline_id'], data['class'], data['layover'], data['arrival_time'], data['departure_time'], data['price']))
+        db.get_db().commit()
+    except Exception as e:
+        return jsonify({"Error": str(e)})
+
+    return jsonify({"Message": "Flight added successfully."})
+
+# Update flight
+@flights.route('/flights/<int:flight_id>', methods=['PUT'])
+def update_flight(flight_id):
+    # Retrieve data from the request
+    data = request.json
+
+    # Ensure required fields are present in the request data
+    required_fields = ['flight_id', 'airline_id', 'class', 'layover', 'arrival_airport', 'departure_airport', 'price']
+    if not all(field in data for field in required_fields):
+        return jsonify({"Error": "Missing required fields."})
+
+    # Update the flight in the database
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute('''
+            UPDATE flights
+            SET class = %s, layover = %s, arrival_time = %s, departure_time = %s, price = %s
+            WHERE flight_id = %s
+        ''', (data['flight_id'], data['airline_id'], data['class'], data['layover'], data['arrival_time'], data['departure_time'], data['price']))
+        db.get_db().commit()
+    except Exception as e:
+        return jsonify({"Error": str(e)})
+
+    return jsonify({"Message": f"Flight {flight_id} updated successfully."})
+
+# Delete flight
+@flights.route('/flights/<int:flight_id>', methods=['DELETE'])
+def delete_flight(flight_id):
+    # Delete the flight from the database
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute('''
+            DELETE FROM flights
+            WHERE flight_id = %s
+        ''', (flight_id,))
+        db.get_db().commit()
+    except Exception as e:
+        return jsonify({"Error": str(e)})
+
+    return jsonify({"Message": f"Flight {flight_id} deleted successfully"})
