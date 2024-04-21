@@ -1,4 +1,3 @@
-USE Globalwonder;
 insert into hotels (street_num, street, name, ranking) values ('3793', 'Walton', 'Langosh Inc', 2.9);
 insert into hotels (street_num, street, name, ranking) values ('97', 'Almo', 'Jacobs, McCullough and Schulist', 5.6);
 insert into hotels (street_num, street, name, ranking) values ('46686', 'Nelson', 'Rath-Swift', 7.2);

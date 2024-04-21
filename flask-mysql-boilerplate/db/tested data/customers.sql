@@ -1,5 +1,3 @@
-USE Globalwonder;
-DELETE FROM customers;
 insert into customers (customer_id, first_name, last_name, date_of_birth) values (1, 'Letty', 'Bridge', '1961-02-16');
 insert into customers (customer_id, first_name, last_name, date_of_birth) values (67, 'Judie', 'Vankin', '1901-01-06');
 insert into customers (customer_id, first_name, last_name, date_of_birth) values (10, 'Amara', 'Gutridge', '1973-12-29');

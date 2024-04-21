@@ -1,5 +1,3 @@
-USE Globalwonder;
-DELETE FROM attractions;
 insert into attractions (attraction_id, type, description, kid_friendly, needs_booking, price) values (33, 'mountain', 'Aonyx capensis', false, false, 78);
 insert into attractions (attraction_id, type, description, kid_friendly, needs_booking, price) values (37, 'museum', 'Bison bison', true, false, 181);
 insert into attractions (attraction_id, type, description, kid_friendly, needs_booking, price) values (7, 'volcano', 'Agelaius phoeniceus', false, true, 50);

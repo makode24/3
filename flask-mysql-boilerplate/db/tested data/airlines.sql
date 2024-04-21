@@ -1,4 +1,3 @@
-DELETE FROM airlines;
 insert into airlines (airline_id, name, num_accidents, rating) values (1, 'SkyJet Airways', 31, 6.83);
 insert into airlines (airline_id, name, num_accidents, rating) values (2, 'Starlight Airlines', 4, 0.1);
 insert into airlines (airline_id, name, num_accidents, rating) values (3, 'CloudWings Express', 15, 6.16);
