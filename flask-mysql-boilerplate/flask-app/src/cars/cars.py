@@ -5,35 +5,8 @@ from src import db
 
 carCompany = Blueprint('carCompany', __name__)
 
-# Get all the products from the database
-@carCompany.route('/carCompany', methods=['GET'])
-def get_carCompany():
-    # get a cursor object from the database
-    cursor = db.get_db().cursor()
-
-    # use cursor to query the database for a list of products
-    cursor.execute('SELECT rating, company_name FROM rent_car_company')
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
-    json_data = []
-
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-
-    return jsonify(json_data)
-
-
-# get the company name from the database
-@carCompany.route('/Company')
+# get the company names from the database ordered alphabetically
+@carCompany.route('/Company', methods=['GET'])
 def get_carCompany():
     cursor = db.get_db().cursor()
     query = '''
@@ -61,7 +34,7 @@ def get_carCompany():
 
 
 # get the ratings of the companies from the database
-@carCompany.route('/Rating')
+@carCompany.route('/Rating', methods=['GET'])
 def get_carCompany():
     cursor = db.get_db().cursor()
     query = '''
@@ -88,41 +61,13 @@ def get_carCompany():
     return jsonify(json_data)
 
 
-# get the company names from the database ordered alphabetically
-@carCompany.route('/Company')
-def get_carCompany():
-    cursor = db.get_db().cursor()
-    query = '''
-        SELECT rating, company_name
-        FROM rent_car_company
-        ORDER BY company_name DESC
-    '''
-    cursor.execute(query)
-       # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
-    json_data = []
-
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-
-    return jsonify(json_data)
-
-
 
 
 
 
 cars = Blueprint('car', __name__)
 
-# Get all the products from the database
+# Get all the cars from the database
 @cars.route('/car', methods=['GET'])
 def get_car():
     # get a cursor object from the database
@@ -150,7 +95,7 @@ def get_car():
 
 
 # get the cheapest cars from the database
-@cars.route('/mostExpensive')
+@cars.route('/mostExpensive', methods=['GET'])
 def get_car():
     cursor = db.get_db().cursor()
     query = '''
@@ -178,7 +123,7 @@ def get_car():
 
 
 # get the model of the cars from the database in ordered alphabetically
-@cars.route('/Model')
+@cars.route('/Model', methods=['GET'])
 def get_car():
     cursor = db.get_db().cursor()
     query = '''
@@ -206,7 +151,7 @@ def get_car():
 
 
 # get the capacity of each car from the database ordering from lowest to highest
-@cars.route('/Capacity')
+@cars.route('/Capacity', methods=['GET'])
 def get_car():
     cursor = db.get_db().cursor()
     query = '''
@@ -233,7 +178,7 @@ def get_car():
     return jsonify(json_data)
 
 # get only available cars from the database
-@cars.route('/Availability')
+@cars.route('/Availability', methods=['GET'])
 def get_car():
     cursor = db.get_db().cursor()
     query = '''
@@ -325,6 +270,8 @@ def delete_car(license_plate):
         return jsonify({"Error": str(e)})
 
     return jsonify({"Message": f"Car {license_plate} deleted successfully"})
+
+
 
 
 
